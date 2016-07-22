@@ -2,42 +2,30 @@ require('normalize.css/normalize.css');
 require('styles/App.css');
 
 import React from 'react';
-import { Grid, Col, Row } from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
+import ChangeRow from './ChangeRow';
 import 'whatwg-fetch';
 
 class AppComponent extends React.Component {
   state = {
-    original: ''
+    changes: []
   }
 
   componentWillMount() {
-    fetch('../res/original.txt')
-    .then((response) => {
-      response.text().then((text) => {
-        this.setState({ original: text });
-      });
-    });
+    fetch('../res/kenpo.json')
+    .then((response) => response.json())
+    .then((json) => this.setState({ changes: json }));
   }
 
   render = () => {
     return (
-      <div className="index">
+      <div className="container">
         <Grid>
-          <Row className="show-grid">
-            <Col md={6}>
-              { this.state.original }
-            </Col>
-            <Col md={6}>
-              second column
-            </Col>
-          </Row>
+          { this.state.changes.map(change => <ChangeRow key={change.id} change={change} />) }
         </Grid>
       </div>
     );
   }
 }
-
-AppComponent.defaultProps = {
-};
 
 export default AppComponent;
