@@ -4,11 +4,11 @@ const srcPath = path.join(__dirname, '/../src');
 const dfltPort = 8000;
 function getDefaultModules() {
   return {
-    preLoaders: [{
-        test: /\.(js|jsx)$/,
-        include: srcPath,
-        loader: 'eslint-loader'
-      }],
+    // preLoaders: [{
+    //     test: /\.(js|jsx)$/,
+    //     include: srcPath,
+    //     loader: 'eslint-loader'
+    //   }],
     loaders: [
       {
         test: /\.css$/,

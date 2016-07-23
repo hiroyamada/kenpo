@@ -1,31 +1,36 @@
 require('normalize.css/normalize.css');
-require('styles/App.css');
+require('../styles/App.css');
 
 import React from 'react';
+import { connect } from 'react-redux';
 import { Grid } from 'react-bootstrap';
 import ChangeRow from './ChangeRow';
-import 'whatwg-fetch';
+import { getChanges } from '../modules/changes/';
+
+const mapStateToProps = (state) => ({
+  isLoading: state.changes.isLoading,
+  changes: state.changes.items
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchChanges: () => dispatch(getChanges())
+});
 
 class AppComponent extends React.Component {
-  state = {
-    changes: []
-  }
-
   componentWillMount() {
-    fetch('../res/kenpo.json')
-    .then((response) => response.json())
-    .then((json) => this.setState({ changes: json }));
+    this.props.fetchChanges();
   }
 
   render = () => {
     return (
       <div className="container">
-        <Grid>
-          { this.state.changes.map(change => <ChangeRow key={change.id} change={change} />) }
-        </Grid>
+        { this.props.isLoading ? 'loading...' :
+          <Grid>
+            { this.props.changes ? this.props.changes.map(change => <ChangeRow key={change.id} change={change} />) : 'blah' }
+          </Grid> }
       </div>
     );
   }
 }
 
-export default AppComponent;
+export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);
