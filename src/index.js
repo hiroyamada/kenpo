@@ -6,9 +6,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import reducers from './reducers';
 import promiseMiddleware from 'redux-promise-middleware';
+import persistState from 'redux-localstorage';
+import normalizrMiddleware from 'redux-normalizr-middleware';
 
 let store = createStore(reducers, { changes: { item: [], isLoading: false } }, compose(
-  applyMiddleware(promiseMiddleware())
+  applyMiddleware(promiseMiddleware(), normalizrMiddleware()),
+  persistState(),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
 // Render the main component into the dom
