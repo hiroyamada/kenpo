@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Grid } from 'react-bootstrap';
 import ChangeRow from './ChangeRow';
 import { getChanges } from '../modules/changes/';
+import UserBox from './UserBox';
 
 const mapStateToProps = (state) => ({
   isLoading: state.changes.isLoading,
@@ -24,6 +25,7 @@ class AppComponent extends React.Component {
   render = () => {
     return (
       <div className="container">
+        <UserBox />
         {this.props.isLoading ? 'loading...' :
           <Grid>
             {this.props.changes
